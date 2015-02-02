@@ -33,22 +33,21 @@
             regexp=local.*all.*all.*ident
             state=present
             line='local   all         all                               trust'
-        notify: restart postgresql
-  handlers:
-      - name: restart postgresql
-        service:
-            name=postgresql
-            state=restarted
-
-      #- name: Create iRODS database
-      # postgresql_db:
-      #     name=ICAT
-      #     state=present
-      #     login_user=psql
-      #- name: Create PostgreSQL user and associate with db
-      #  postgresql_user: db=ICAT name=irods password=hemligt state=present
-
+      - name: Restart PostgreSQL
+        service: name=postgresql state=restarted
+      - name: Create iRODS database
+        postgresql_db:
+            name=ICAT
+      - name: Create PostgreSQL user and associate with db
+        postgresql_user: db=ICAT name=irods password=hemligt
+      - name: Give user irods privileges to ICAT database
+        postgresql_privs:
+            database=ICAT
+            state=present
+            privs=ALL
+            type=database
+            obj=ICAT
+            role=irods
       #- name: Download iRODS RPM:s
         # ftp://ftp.renci.org/pub/irods/releases/4.0.3/irods-icat-4.0.3-64bit-centos6.rpm
         # ftp://ftp.renci.org/pub/irods/releases/4.0.3-with-v1.4-database-plugins/irods-database-plugin-postgres-1.4-centos6.rpm
-        
