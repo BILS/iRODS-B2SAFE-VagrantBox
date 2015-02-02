@@ -11,6 +11,9 @@
         yum: name={{ item }} state=present
         with_items: 
           - python-psycopg2
+          - libselinux-python
+          - nano
+          - vim
       - name: Install Postgres via yum
         yum: name={{ item }} state=present
         with_items:
@@ -21,11 +24,27 @@
         command: service postgresql initdb
                  creates=/var/lib/pgsql/data/postgresql.conf
       - name: Start PostgreSQL database service and enable on startup
-        service: name=postgresql 
+        service: name=postgresql
                  state=started
                  enabled=yes
+      - name: Enable normal login in PostgreSQL
+        lineinfile:
+            dest=/var/lib/pgsql/data/pg_hba.conf
+            regexp=local.*all.*all.*ident
+            state=present
+            line='local   all         all                               trust'
+        notify: restart postgresql
+  handlers:
+      - name: restart postgresql
+        service:
+            name=postgresql
+            state=restarted
+
       #- name: Create iRODS database
-      #  postgresql_db: name=ICAT state=present
+      # postgresql_db:
+      #     name=ICAT
+      #     state=present
+      #     login_user=psql
       #- name: Create PostgreSQL user and associate with db
       #  postgresql_user: db=ICAT name=irods password=hemligt state=present
 
