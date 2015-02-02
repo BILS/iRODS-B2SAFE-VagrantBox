@@ -6,3 +6,30 @@
   pre_tasks:
       - name: Update all yum packages
         yum: name=* state=latest
+  tasks:
+      - name: Install some required yum packages
+        yum: name={{ item }} state=present
+        with_items: 
+          - python-psycopg2
+      - name: Install Postgres via yum
+        yum: name={{ item }} state=present
+        with_items:
+          - postgresql
+          - postgresql-server
+          - postgresql-odbc
+      - name: Initialize PostgreSQL database
+        command: service postgresql initdb
+                 creates=/var/lib/pgsql/data/postgresql.conf
+      - name: Start PostgreSQL database service and enable on startup
+        service: name=postgresql 
+                 state=started
+                 enabled=yes
+      #- name: Create iRODS database
+      #  postgresql_db: name=ICAT state=present
+      #- name: Create PostgreSQL user and associate with db
+      #  postgresql_user: db=ICAT name=irods password=hemligt state=present
+
+      #- name: Download iRODS RPM:s
+        # ftp://ftp.renci.org/pub/irods/releases/4.0.3/irods-icat-4.0.3-64bit-centos6.rpm
+        # ftp://ftp.renci.org/pub/irods/releases/4.0.3-with-v1.4-database-plugins/irods-database-plugin-postgres-1.4-centos6.rpm
+        
