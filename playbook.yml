@@ -80,3 +80,11 @@
         yum:
             name=/vagrant/rpm/irods-database-plugin-postgres-1.4-centos6.rpm
             state=present
+      - name: Generate responsefile
+        command: /vagrant/scripts/generate_responsefile.sh /tmp/responses
+        args:
+          creates: /tmp/responses
+      - name: Run iRODS configuration script
+        shell: /var/lib/irods/packaging/setup_irods.sh < /tmp/responses
+        args:
+           creates: /etc/irods/service_account.config
