@@ -3,9 +3,9 @@
   sudo: true
   vars:
       document_root: /vagrant
-  pre_tasks:
-      - name: Update all yum packages
-        yum: name=* state=latest
+  #pre_tasks:
+  #    - name: Update all yum packages
+  #      yum: name=* state=latest
   tasks:
       - name: Install some required yum packages
         yum: name={{ item }} state=present
@@ -27,12 +27,30 @@
         service: name=postgresql
                  state=started
                  enabled=yes
-      - name: Enable normal login in PostgreSQL
+      - name: Enable normal login in PostgreSQL (1/3)
         lineinfile:
             dest=/var/lib/pgsql/data/pg_hba.conf
-            regexp=local.*all.*all.*ident
+            regexp=^local(.*)ident$
             state=present
-            line='local   all         all                               trust'
+            backrefs=yes
+            line='local\1trust'
+            backup=yes
+      - name: Enable normal login in PostgreSQL (2/3)
+        lineinfile:
+            dest=/var/lib/pgsql/data/pg_hba.conf
+            regexp=^host(.*)ident$
+            state=present
+            backrefs=yes
+            line='host\1trust'
+            backup=yes
+      - name: Enable normal login in PostgreSQL (3/3)
+        lineinfile:
+            dest=/var/lib/pgsql/data/pg_hba.conf
+            regexp=^host(.*)ident$
+            state=present
+            backrefs=yes
+            line='host\1trust'
+            backup=yes
       - name: Restart PostgreSQL
         service: name=postgresql state=restarted
       - name: Create iRODS database
