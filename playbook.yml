@@ -114,3 +114,11 @@
         shell: /var/lib/irods/packaging/setup_irods.sh < /tmp/responses
         args:
            creates: /etc/irods/service_account.config
+      - name: Generate responses for iinit
+        command: /vagrant/scripts/generate_iinitresponses.sh /tmp/iinitresponses
+        args:
+          creates: /tmp/iinitresponses
+      - name: Running iinit for vagrant user
+        shell: su vagrant -c 'iinit' < /tmp/iinitresponses
+        args:
+          creates: /home/vagrant/.irods/irodsEnv
