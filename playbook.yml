@@ -48,6 +48,22 @@
             type=database
             obj=ICAT
             role=irods
+        postgresql_privs:
+            database=ICAT
+            state=present
+            privs=ALL
+            type=table
+            objs=ALL_IN_SCHEMA
+            schema=public
+            roles=irods
+        postgresql_privs:
+            database=ICAT
+            state=present
+            privs=ALL
+            type=sequence
+            objs=ALL_IN_SCHEMA
+            schema=public
+            roles=irods
       #- name: Download iRODS RPM:s
         # ftp://ftp.renci.org/pub/irods/releases/4.0.3/irods-icat-4.0.3-64bit-centos6.rpm
         # ftp://ftp.renci.org/pub/irods/releases/4.0.3-with-v1.4-database-plugins/irods-database-plugin-postgres-1.4-centos6.rpm
