@@ -1,0 +1,8 @@
+---
+- hosts: all
+  sudo: true
+  vars:
+      document_root: /vagrant
+  pre_tasks:
+      - name: Update all yum packages
+        yum: name=* state=latest
