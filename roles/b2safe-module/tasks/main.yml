@@ -51,3 +51,13 @@
         - logmanager.py
         - epicclient.py
         - authZmanager.py
+  - name: Set execution permissions for the irods user on the python files
+    file:
+        path={{ b2safe_root }}/cmd/{{ item }}
+        owner=irods
+        group=irods
+        mode=644
+    with_items:
+        - logmanager.py
+        - epicclient.py
+        - authZmanager.py
