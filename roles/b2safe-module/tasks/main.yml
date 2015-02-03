@@ -42,3 +42,12 @@
         line='acSetRescSchemeForRepl {msiSetDefaultResc("demoResc","preferred"); }'
         state=present
         backup=yes
+  - name: Symlink python command files
+    file:
+        src={{ b2safe_root }}/cmd/{{ item }}
+        dest={{ irods_root }}/server/bin/cmd/{{ item }}
+        state=link
+    with_items:
+        - logmanager.py
+        - epicclient.py
+        - authZmanager.py
