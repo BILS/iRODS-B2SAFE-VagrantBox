@@ -115,4 +115,4 @@
   - name: Running iinit for vagrant user
     shell: su vagrant -c 'iinit' < /tmp/iinitresponses
     args:
-      creates: /home/vagrant/.irods/irodsEnv
+      creates: /home/vagrant/.irods/.irodsEnv
