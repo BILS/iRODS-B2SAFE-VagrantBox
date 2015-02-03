@@ -17,3 +17,7 @@
         - { src: 'local', dest: 'euloc' }
         - { src: 'pid-service', dest: 'eupids' }
         - { src: 'replication', dest: 'eurepl' }
+  - name: Add name of reConfigs symlinks to server.config
+    lineinfile:
+        dest={{ irods_etc }}/server.config
+        line="reRuleSet   eucerr,eudat,euloc,eupids,eurepl"
