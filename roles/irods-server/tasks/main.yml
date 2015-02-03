@@ -74,23 +74,21 @@
         objs=ALL_IN_SCHEMA
         schema=public
         roles=irods
-  - name: Create directory for RPM files
-    file: path=/vagrant/rpm state=directory
   - name: Download iRODS ICAT server package
     get_url:
         url=ftp://ftp.renci.org/pub/irods/releases/4.0.3/irods-icat-4.0.3-64bit-centos6.rpm
-        dest=/vagrant/rpm/irods-icat-4.0.3-64bit-centos6.rpm
+        dest={{ rpm_dir }}/irods-icat-4.0.3-64bit-centos6.rpm
   - name: Download iRODS database plugins
     get_url:
         url=ftp://ftp.renci.org/pub/irods/releases/4.0.3-with-v1.4-database-plugins/irods-database-plugin-postgres-1.4-centos6.rpm
-        dest=/vagrant/rpm/irods-database-plugin-postgres-1.4-centos6.rpm
+        dest={{ rpm_dir }}/irods-database-plugin-postgres-1.4-centos6.rpm
   - name: Install iRODS ICAT server package
     yum:
-        name=/vagrant/rpm/irods-icat-4.0.3-64bit-centos6.rpm
+        name={{ rpm_dir }}/irods-icat-4.0.3-64bit-centos6.rpm
         state=present
   - name: Install iRODS database plugins
     yum:
-        name=/vagrant/rpm/irods-database-plugin-postgres-1.4-centos6.rpm
+        name={{ rpm_dir }}/irods-database-plugin-postgres-1.4-centos6.rpm
         state=present
   - name: Generate password for iRODS user
     shell: openssl rand -base64 16 | sed 's,/,S,g' | cut -c 1-16 > /tmp/irodspass

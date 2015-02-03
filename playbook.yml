@@ -8,10 +8,21 @@
       b2safe_root: "{{ irods_root }}/modules/b2safe"
       b2safe_git_url: https://github.com/EUDAT-B2SAFE/B2SAFE-core.git
       b2safe_git_version: release-3.0
+      rpm_dir: /vagrant/rpm
   #pre_tasks:
   #    - name: Update all yum packages
   #      yum: name=* state=latest
   pre_tasks:
+      - name: Create directory for RPM files
+        file: path={{ rpm_dir }} state=directory
+      - name: Download EPEL RPM
+        get_url:
+            url=http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+            dest={{ rpm_dir }}/epel-release-6-8.noarch.rpm
+      - name: Install EPEL RPM
+        yum:
+            name={{ rpm_dir }}/epel-release-6-8.noarch.rpm
+            state=present
       - name: Get some required yum packages
         yum: name=git state=present
   roles:
