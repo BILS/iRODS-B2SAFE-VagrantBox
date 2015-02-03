@@ -6,3 +6,14 @@
         repo={{ b2safe_git_url }}
         dest={{ b2safe_root }}
         version={{ b2safe_git_version }}
+  - name: Symlink all the rule files to iRODS reConfigs folder
+    file:
+        src={{ b2safe_root }}/rulebase/{{ item.src }}.re
+        dest={{ irods_root }}/server/config/reConfigs/{{ item.dest }}.re
+        state=link
+    with_items:
+        - { src: 'catchError', dest: 'eucerr' }
+        - { src: 'eudat', dest: 'eudat' }
+        - { src: 'local', dest: 'euloc' }
+        - { src: 'pid-service', dest: 'eupids' }
+        - { src: 'replication', dest: 'eurepl' }
