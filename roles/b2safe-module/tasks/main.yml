@@ -25,9 +25,9 @@
     lineinfile:
         dest={{ irods_etc }}/server.config
         regexp='^(reRuleSet.*core).*$'
+        line='\1,euhooks,eudat,eurepl,eupids,eucerr,euloc'
         state=present
         backrefs=yes
-        line='\1,euhooks,eudat,eurepl,eupids,eucerr,euloc'
   - name: Configure default resource for creating files
     lineinfile:
         dest={{ irods_etc }}/core.re
@@ -71,3 +71,27 @@
         - python-defusedxml
         - python-lxml
         - python-argparse
+  - name: Set EPIC API parameters (credStorePath)
+    lineinfile:
+        dest={{ b2safe_root }}/rulebase/local.re
+        backrefs=yes
+        regexp='^(.*)credStorePath\=.*$'
+        line='\1credStorePath="{{ b2safe_root }}/credentials";'
+        state=present
+        backup=yes
+  - name: Set EPIC API parameters (serverID)
+    lineinfile:
+        dest={{ b2safe_root }}/rulebase/local.re
+        backrefs=yes
+        regexp='^(.*)serverID\=.*$'
+        line='\1serverID="irods://{{ irods_host }}:{{ irods_port}}";'
+        state=present
+        backup=yes
+  - name: Set EPIC API parameters (credStorePath)
+    lineinfile:
+        dest={{ b2safe_root }}/rulebase/local.re
+        backrefs=yes
+        regexp='^(.*)credStorePath\=.*$'
+        line='\1credStorePath="{{ b2safe_root }}/credentials";'
+        state=present
+        backup=yes
