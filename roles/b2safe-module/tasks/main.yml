@@ -20,4 +20,7 @@
   - name: Add name of reConfigs symlinks to server.config
     lineinfile:
         dest={{ irods_etc }}/server.config
-        line="reRuleSet   eucerr,eudat,euloc,eupids,eurepl"
+        regexp='^(reRuleSet.*core).*$'
+        state=present
+        backrefs=yes
+        line='\1,euhooks,eudat,eurepl,eupids,eucerr,euloc'
