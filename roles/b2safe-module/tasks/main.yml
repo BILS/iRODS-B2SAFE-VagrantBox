@@ -103,3 +103,16 @@
         owner=irods
         group=irods
         mode=600
+
+# --------------------------------------------------------------------------------
+# TODO: Remaining steps to implement:
+# --------------------------------------------------------------------------------
+# - Update the "getAuthZParameters" rule in "./server/config/reConfigs/local.re"
+# - Set the proper values in modules/B2SAFE/cmd/authz.map.json
+# - Update the "getLogParameters" rule in "./server/config/reConfigs/local.re"
+# - Set the proper values in modules/B2SAFE/cmd/log.manager.conf
+# - Create a shared space in all zones as configured in the eudat.re rulebase getSharedCollection function.
+#   (defaults to "<zone>/replicate")
+# - Make sure all users involved in the replication can write in the shared collection.
+# - Change "#!/usr/bin/env python" in the python scripts in modules/B2SAFE/cmd/ to your python installation
+# --------------------------------------------------------------------------------
