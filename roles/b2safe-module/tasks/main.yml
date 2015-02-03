@@ -28,3 +28,17 @@
         state=present
         backrefs=yes
         line='\1,euhooks,eudat,eurepl,eupids,eucerr,euloc'
+  - name: Configure default resource for creating files
+    lineinfile:
+        dest={{ irods_etc }}/core.re
+        regexp='^acSetRescSchemeForCreate.*$'
+        line='acSetRescSchemeForCreate {msiSetDefaultResc("demoResc","preferred"); }'
+        state=present
+        backup=yes
+  - name: Configure default resource for replication
+    lineinfile:
+        dest={{ irods_etc }}/core.re
+        regexp='^acSetRescSchemeForRepl.*$'
+        line='acSetRescSchemeForRepl {msiSetDefaultResc("demoResc","preferred"); }'
+        state=present
+        backup=yes
