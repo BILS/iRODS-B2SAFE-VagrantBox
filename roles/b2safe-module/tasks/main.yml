@@ -95,7 +95,11 @@
         line='\1credStorePath="{{ b2safe_root }}/conf/credentials";'
         state=present
         backup=yes
+  - include_vars: private-vars.yml
   - name: Create credentials file
     template:
         src=credentials.j2
         dest={{ b2safe_root }}/conf/credentials
+        owner=irods
+        group=irods
+        mode=600
