@@ -1,8 +1,8 @@
 ---
   - name: Create directory for b2safe
-    file: path=/opt/b2safe state=directory
+    file: path={{ b2safe_root }} state=directory
   - name: Check out B2SAFE from github
     git: 
-        repo=https://github.com/EUDAT-B2SAFE/B2SAFE-core.git
-        dest=/opt/b2safe
-        version=release-3.0
+        repo={{ b2safe_git_url }}
+        dest={{ b2safe_root }}
+        version={{ b2safe_git_version }}
