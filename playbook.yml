@@ -10,7 +10,13 @@
       b2safe_root: "{{ irods_root }}/modules/b2safe"
       b2safe_git_url: https://github.com/EUDAT-B2SAFE/B2SAFE-core.git
       b2safe_git_version: release-3.0
+      epic_baseuri: http://epic4.storage.surfsara.nl/v2_B/handles
       rpm_dir: /vagrant/rpm
+  vars_prompt:
+      epic_user: "Enter the EPIC username"
+      epic_prefix: "Enter the EPIC prefix"
+      epic_pass: "Enter the EPIC password"
+      epic_debug: "Run EPIC client in debug mode? (Write False or True)"
   #pre_tasks:
   #    - name: Update all yum packages
   #      yum: name=* state=latest

@@ -92,6 +92,10 @@
         dest={{ b2safe_root }}/rulebase/local.re
         backrefs=yes
         regexp='^(.*)credStorePath\=.*$'
-        line='\1credStorePath="{{ b2safe_root }}/credentials";'
+        line='\1credStorePath="{{ b2safe_root }}/conf/credentials";'
         state=present
         backup=yes
+  - name: Create credentials file
+    template:
+        src=credentials.j2
+        dest={{ b2safe_root }}/conf/credentials
