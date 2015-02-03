@@ -6,5 +6,9 @@
   #pre_tasks:
   #    - name: Update all yum packages
   #      yum: name=* state=latest
+  pre_tasks:
+      - name: Get some required yum packages
+        yum: name=git state=present
   roles:
       - irods-server
+      - b2safe-module
