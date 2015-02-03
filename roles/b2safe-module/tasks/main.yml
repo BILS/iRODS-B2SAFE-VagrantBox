@@ -17,6 +17,10 @@
         - { src: 'local', dest: 'euloc' }
         - { src: 'pid-service', dest: 'eupids' }
         - { src: 'replication', dest: 'eurepl' }
+  - name: Create rule file with hook implementations
+    copy:
+        src=euhooks.re
+        dest={{ irods_root }}/server/config/reConfigs/euhooks.re
   - name: Add name of reConfigs symlinks to server.config
     lineinfile:
         dest={{ irods_etc }}/server.config
