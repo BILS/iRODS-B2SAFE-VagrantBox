@@ -103,12 +103,26 @@
         owner=irods
         group=irods
         mode=600
-
+  - name: Update getAuthZParameters in local.re (authZMapPath)
+    lineinfile:
+        dest={{ b2safe_root }}/rulebase/local.re
+        backrefs=yes
+        regexp='^(.*)authZMapPath\=.*$'
+        line='\1authZMapPath="{{ b2safe_root }}/conf/authz.map.json";'
+        state=present
+        backup=yes
+  - name: Update getAuthZParameters in local.re (logConfPath)
+    lineinfile:
+        dest={{ b2safe_root }}/rulebase/local.re
+        backrefs=yes
+        regexp='^(.*)logConfPath\=.*$'
+        line='\1logConfPath="{{ b2safe_root }}/conf/log.manager.conf";'
+        state=present
+        backup=yes
 # --------------------------------------------------------------------------------
 # TODO: Remaining steps to implement:
 # --------------------------------------------------------------------------------
-# - Update the "getAuthZParameters" rule in "./server/config/reConfigs/local.re"
-# - Set the proper values in modules/B2SAFE/cmd/authz.map.json
+# ->Set the proper values in modules/B2SAFE/cmd/authz.map.json
 # - Update the "getLogParameters" rule in "./server/config/reConfigs/local.re"
 # - Set the proper values in modules/B2SAFE/cmd/log.manager.conf
 # - Create a shared space in all zones as configured in the eudat.re rulebase getSharedCollection function.
