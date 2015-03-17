@@ -124,11 +124,14 @@
         dest={{ b2safe_root }}/conf/authz.map.json
         src=authz.map.json.j2
         backup=yes
+# The following rule not needed at the moment. Seemingly correct values already.
+#  - name: Set proper values in getLogParameters rule in euloc.re
+#    lineinfile:
+#        dest={{ irods_root }}/server/config/reConfigs/euloc.re
 # --------------------------------------------------------------------------------
 # TODO: Remaining steps to implement:
 # --------------------------------------------------------------------------------
-# ->Update the "getLogParameters" rule in "./server/config/reConfigs/local.re"
-# - Set the proper values in modules/B2SAFE/cmd/log.manager.conf
+# ->Set the proper values in modules/B2SAFE/cmd/log.manager.conf
 # - Create a shared space in all zones as configured in the eudat.re rulebase getSharedCollection function.
 #   (defaults to "<zone>/replicate")
 # - Make sure all users involved in the replication can write in the shared collection.
