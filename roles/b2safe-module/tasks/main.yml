@@ -140,11 +140,14 @@
         src=log.manager.conf.j2
         dest={{ b2safe_root }}/conf/log.manager.conf
         backup=yes
+  - name: Create shared space in all zones # as configured in eudat.re in the getSharedCollection function
+    sudo: false
+    command:
+        /vagrant/scripts/create_sharedspace.sh
+        creates=/tmp/sharedspace_created
 # --------------------------------------------------------------------------------
 # TODO: Remaining steps to implement:
 # --------------------------------------------------------------------------------
-# ->Create a shared space in all zones as configured in the eudat.re rulebase getSharedCollection function.
-#   (defaults to "<zone>/replicate")
-# - Make sure all users involved in the replication can write in the shared collection.
+# ->Make sure all users involved in the replication can write in the shared collection.
 # - Change "#!/usr/bin/env python" in the python scripts in modules/B2SAFE/cmd/ to your python installation
 # --------------------------------------------------------------------------------
