@@ -8,7 +8,7 @@
       irods_host: localhost
       irods_port: 1247
       b2safe_root: "{{ irods_root }}/modules/b2safe"
-      b2safe_git_url: https://github.com/EUDAT-B2SAFE/B2SAFE-core.git
+      b2safe_git_url: https://github.com/BILS/B2SAFE-core.git
       b2safe_git_version: release-3.0
       epic_baseuri: http://epic4.storage.surfsara.nl/v2_B/handles
       rpm_dir: /vagrant/rpm
