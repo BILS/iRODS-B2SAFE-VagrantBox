@@ -150,7 +150,13 @@
 # --------------------------------------------------------------------------------
 # - Make sure all users involved in the replication can write in the shared collection.
 # --------------------------------------------------------------------------------
-# TODO: Remaining steps to implement:
-# --------------------------------------------------------------------------------
-# ->Change "#!/usr/bin/env python" in the python scripts in modules/B2SAFE/cmd/ to your python installation
-# --------------------------------------------------------------------------------
+  - name: Change shebang in modules/B2SAFE/cmd/*.py to proper python path
+    lineinfile:
+        dest={{ b2safe_root }}/cmd/{{ item }}
+        line=#!{{ python_bin }}
+        regexp="#\!/usr/bin/env\ python"
+        state=present
+    with_items:
+        - authZmanager.py
+        - epicclient.py
+        - logmanager.py

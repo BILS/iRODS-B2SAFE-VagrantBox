@@ -12,6 +12,7 @@
       b2safe_git_version: release-3.0
       epic_baseuri: http://epic4.storage.surfsara.nl/v2_B/handles
       rpm_dir: /vagrant/rpm
+      python_bin: /usr/bin/python
   #pre_tasks:
   #    - name: Update all yum packages
   #      yum: name=* state=latest
