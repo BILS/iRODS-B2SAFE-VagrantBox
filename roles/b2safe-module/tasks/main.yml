@@ -119,11 +119,15 @@
         line='\1logConfPath="{{ b2safe_root }}/conf/log.manager.conf";'
         state=present
         backup=yes
+  - name: Set proper values in authz.map.json in B2SAFE conf
+    template:
+        dest={{ b2safe_root }}/conf/authz.map.json
+        src=authz.map.json.j2
+        backup=yes
 # --------------------------------------------------------------------------------
 # TODO: Remaining steps to implement:
 # --------------------------------------------------------------------------------
-# ->Set the proper values in modules/B2SAFE/cmd/authz.map.json
-# - Update the "getLogParameters" rule in "./server/config/reConfigs/local.re"
+# ->Update the "getLogParameters" rule in "./server/config/reConfigs/local.re"
 # - Set the proper values in modules/B2SAFE/cmd/log.manager.conf
 # - Create a shared space in all zones as configured in the eudat.re rulebase getSharedCollection function.
 #   (defaults to "<zone>/replicate")
