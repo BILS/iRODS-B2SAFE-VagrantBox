@@ -29,5 +29,5 @@
       - name: Get some required yum packages
         yum: name=git state=present
   roles:
-      - irods-server
-      - b2safe-module
+      - { role: irods-server, sudo: true }
+      - { role: b2safe-module, sudo: true }
