@@ -1,2 +1,4 @@
 ---
 b2safe_authz_action: read
+b2safe_loglevel: DEBUG
+b2safe_logdir: /var/log/b2safe

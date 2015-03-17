@@ -121,18 +121,29 @@
         backup=yes
   - name: Set proper values in authz.map.json in B2SAFE conf
     template:
-        dest={{ b2safe_root }}/conf/authz.map.json
         src=authz.map.json.j2
+        dest={{ b2safe_root }}/conf/authz.map.json
         backup=yes
+# --------------------------------------------------------------------------------
 # The following rule not needed at the moment. Seemingly correct values already.
+# --------------------------------------------------------------------------------
 #  - name: Set proper values in getLogParameters rule in euloc.re
 #    lineinfile:
 #        dest={{ irods_root }}/server/config/reConfigs/euloc.re
+  - name: Create B2SAFE log dir
+    file:
+        dest={{ b2safe_logdir }}
+        state=directory
+    sudo: true
+  - name: Set proper values in B2SAFE log.manager.conf file
+    template:
+        src=log.manager.conf.j2
+        dest={{ b2safe_root }}/conf/log.manager.conf
+        backup=yes
 # --------------------------------------------------------------------------------
 # TODO: Remaining steps to implement:
 # --------------------------------------------------------------------------------
-# ->Set the proper values in modules/B2SAFE/cmd/log.manager.conf
-# - Create a shared space in all zones as configured in the eudat.re rulebase getSharedCollection function.
+# ->Create a shared space in all zones as configured in the eudat.re rulebase getSharedCollection function.
 #   (defaults to "<zone>/replicate")
 # - Make sure all users involved in the replication can write in the shared collection.
 # - Change "#!/usr/bin/env python" in the python scripts in modules/B2SAFE/cmd/ to your python installation
