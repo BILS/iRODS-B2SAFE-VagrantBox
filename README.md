@@ -1,5 +1,7 @@
 # A Vagrant / Ansible config with iRODS4 and the B2SAFE module
 
+![Screenshot](irods_b2safe_terminal.png)
+
 ## Introduction
 
 This is a [Vagrant](https://www.vagrantup.com) box with
