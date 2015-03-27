@@ -1,0 +1,19 @@
+---
+- hosts: all
+  sudo: true
+  vars:
+      document_root: /vagrant
+      irods_root: /var/lib/irods/iRODS
+      irods_etc: /etc/irods
+      irods_host: localhost
+      irods_port: 1247
+      b2safe_root: "{{ irods_root }}/modules/b2safe"
+      b2safe_git_url: https://github.com/BILS/B2SAFE-core.git
+      b2safe_git_version: release-3.0
+      epic_baseuri: http://epic4.storage.surfsara.nl/v2_B/handles
+      rpm_dir: /vagrant/rpm
+      python_bin: /usr/bin/python
+  roles:
+      - { role: pre, sudo: true }
+      - { role: irods-server, sudo: true }
+      - { role: b2safe-module, sudo: true }
