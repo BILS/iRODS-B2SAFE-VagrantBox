@@ -1,0 +1,40 @@
+---
+- name: Update all yum packages
+  yum: name=* state=latest
+- name: Create directory for RPM files
+  file: path={{ rpm_dir }} state=directory
+- name: Download EPEL RPM 
+  get_url:
+      url=http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+      dest={{ rpm_dir }}/epel-release-6-8.noarch.rpm
+- name: Install EPEL RPM 
+  yum:
+      name={{ rpm_dir }}/epel-release-6-8.noarch.rpm
+      state=present
+- name: Get some required yum packages
+  yum: name=git state=present
+- name: Install SSH key
+  authorized_key: 
+      user=vagrant 
+      path=/home/vagrant/.ssh/authorized_keys 
+      state=present
+      key="{{ lookup('file', 'id_rsa_virtualcluster.pub') }}"
+- name: Set up hosts files on the nodes, for easier SSH:ing between them
+  lineinfile:
+    dest=/etc/hosts
+    insertafter=^127\.0\.0\.1
+    line={{ item }}
+    state=present
+  with_items:
+    - '10.2.2.1\ master'
+    - '10.2.2.2\ slave'
+#- name: Set up SSH agent and keys when logging in
+#  lineinfile:
+#    dest=/home/vagrant/.bashrc
+#    insertafter={{ item.regexp }}
+#    line={{ item.line }}
+#    state=present
+#  with_items:
+#    - { regexp: EOF, line: '#\ VAGRANT' }
+#    - { regexp: '\#\ VAGRANT', line: 'eval\ $(ssh-agent\ -s)' }
+#    - { regexp: '^eval.*ssh-agent', line: 'ssh-add\ /vagrant/id_rsa_virtualcluster' }
