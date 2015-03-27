@@ -143,7 +143,7 @@
   - name: Create shared space in all zones # as configured in eudat.re in the getSharedCollection function
     sudo: false
     command:
-        /vagrant/scripts/create_sharedspace.sh
+        /vagrant/scripts/create_sharedspace.sh {{ irods_zone }}
         creates=/tmp/sharedspace_created
 # --------------------------------------------------------------------------------
 # The following "task" does not seem to be required at the moment.

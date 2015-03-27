@@ -1,10 +1,12 @@
 #!/bin/bash
 
 RESPFILE=$1
-IRODSPORT=$2
+IRODSHOST=$2
+IRODSPORT=$3
+ZONENAME=$4
 
-echo "localhost" > $RESPFILE
+echo $IRODSHOST > $RESPFILE
 echo $IRODSPORT >> $RESPFILE
 echo "rods" >> $RESPFILE
-echo "tempZone" >> $RESPFILE
+echo $ZONENAME >> $RESPFILE
 cat /tmp/irodspass >> $RESPFILE
