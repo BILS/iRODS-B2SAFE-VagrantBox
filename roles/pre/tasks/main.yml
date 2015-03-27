@@ -12,7 +12,10 @@
       name={{ rpm_dir }}/epel-release-6-8.noarch.rpm
       state=present
 - name: Get some required yum packages
-  yum: name=git state=present
+  yum: name={{ item }} state=present
+  with_items:
+      - git
+      - libselinux-python
 - name: Install SSH key
   authorized_key: 
       user=vagrant 

@@ -99,7 +99,7 @@
     args:
       creates: /tmp/dbpass
   - name: Generate responsefile
-    command: /vagrant/scripts/generate_responsefile.sh /tmp/responses {{ irods_host }} {{ irods_port }} {{ irods_zone }}
+    command: /vagrant/scripts/generate_responsefile.sh /tmp/responses {{ irods_host }} {{ irods_port }} {{ irods_zone }} {{ icat_host }}
     args:
       creates: /tmp/responses
   - name: Run iRODS configuration script

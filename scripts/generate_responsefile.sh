@@ -4,6 +4,7 @@ RESPFILE=$1
 IRODSHOST=$2
 IRODSPORT=$3
 ZONENAME=$4
+ICATHOST=$5
 
 echo "irods" > $RESPFILE                  # service account user ID
 echo "irods" >> $RESPFILE                 # service account group ID
@@ -18,7 +19,7 @@ openssl rand -base64 32 | sed 's,/,S,g' | cut -c 1-32 >> $RESPFILE # agent key
 echo "rods" >> $RESPFILE                  # iRODS admin account
 cat /tmp/irodspass >> $RESPFILE           # iRODS admin password
 echo "yes" >> $RESPFILE                   # confirm iRODS settings
-echo $IRODSHOST >> $RESPFILE              # database hostname
+echo $ICATHOST >> $RESPFILE               # database hostname
 echo "5432" >> $RESPFILE                  # database port
 echo "ICAT" >> $RESPFILE                  # database DB name
 echo "irods" >> $RESPFILE                 # database admin username
