@@ -6,8 +6,11 @@
       irods_root: /var/lib/irods/iRODS
       irods_etc: /etc/irods
       irods_host: irods1
+      irods_host_remote: irods2
       irods_zone: zone1
+      irods_zone_remote: zone2
       irods_port: 1247
+      irods_port_remote: 1247
       icat_host: localhost
       b2safe_root: "{{ irods_root }}/modules/b2safe"
       b2safe_git_url: https://github.com/BILS/B2SAFE-core.git
@@ -19,3 +22,4 @@
       - { role: pre, sudo: true }
       - { role: irods-server, sudo: true }
       - { role: b2safe-module, sudo: true }
+      - { role: replication, sudo: false }

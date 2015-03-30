@@ -1,3 +1,15 @@
 ---
 # For reference, see these slides: http://irods.org/wp-content/uploads/2012/08/irods-admin.pdf
 # ... and also, this document on EUDAT: http://www.eudat.eu/User%20Documentation%20-%20MPI-PL-SARA-RZG%20iRODS%20Zone%20Federation.html
+# 1. Update iRODS Host file? (iRODS/server/config/irodsHost)
+#    - localhost ...
+#    - zone2 ...
+# 2. Test connection between servers with `traceroute -T -p 1247 <IP>`
+# 3. Create remote zones. Ex:
+#    `iadmin mkzone SARAzoneName remote irodsSARA.sara.nl:1247`
+#
+- name: Create remote zone (for federation)
+  sudo: false
+  command:
+      /vagrant/scripts/create_remotezone.sh {{ irods_zone_remote }} {{ irods_host_remote }} {{ irods_port_remote }}
+      creates=/tmp/remotezone_created
