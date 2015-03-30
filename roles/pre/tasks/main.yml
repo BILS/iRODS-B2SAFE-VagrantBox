@@ -16,6 +16,7 @@
   with_items:
       - git
       - libselinux-python
+      - traceroute
 - name: Install SSH key
   authorized_key: 
       user=vagrant 
