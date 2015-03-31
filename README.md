@@ -43,13 +43,13 @@ vagrant up
 
 ### Log in with SSH
 
-To log in to one of the newly created virtual machines (the master or the slave), do:
+To log in to one of the newly created virtual machines (zone1 or zone2), do:
 
 ```bash
-vagrant ssh master
+vagrant ssh zone1
 ```
 or:
 ```bash
-vagrant ssh slave
+vagrant ssh zone2
 ```
 respectively.
