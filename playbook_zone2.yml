@@ -9,6 +9,8 @@
       irods_host_remote: irods1
       irods_zone: zone2
       irods_zone_remote: zone1
+      irods_zone_sid: zone2abcdefg
+      irods_zone_sid_remote: zone1abcdefg
       irods_port: 1247
       irods_port_remote: 1247
       icat_host: localhost
