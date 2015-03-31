@@ -15,7 +15,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	  zone1.vm.provision :ansible do |ansible|
 		  ansible.playbook = "playbook_zone1.yml"
 	  end
-	  zone1.vm.network "private_network", ip: "10.2.2.1"
+	  zone1.vm.network "private_network", ip: "10.2.2.2"
   end
 
   config.vm.define "zone2" do |zone2|
@@ -25,7 +25,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	  zone2.vm.provision :ansible do |ansible|
 		  ansible.playbook = "playbook_zone2.yml"
 	  end
-	  zone2.vm.network "private_network", ip: "10.2.2.2"
+	  zone2.vm.network "private_network", ip: "10.2.2.4"
   end
 
 end

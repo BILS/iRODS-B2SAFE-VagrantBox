@@ -23,6 +23,9 @@
       path=/home/vagrant/.ssh/authorized_keys 
       state=present
       key="{{ lookup('file', 'id_rsa_virtualcluster.pub') }}"
+- name: Set hostname
+  command: hostname {{ irods_host }}
+  sudo: true
 - name: Set up hosts files on the nodes, for easier SSH:ing between them
   lineinfile:
     dest=/etc/hosts
@@ -30,8 +33,8 @@
     line={{ item }}
     state=present
   with_items:
-    - '10.2.2.1\ irods1'
-    - '10.2.2.2\ irods2'
+    - '10.2.2.2\ irods1'
+    - '10.2.2.4\ irods2'
 #- name: Set up SSH agent and keys when logging in
 #  lineinfile:
 #    dest=/home/vagrant/.bashrc
