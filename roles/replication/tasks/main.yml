@@ -13,3 +13,33 @@
   command:
       /vagrant/scripts/create_remotezone.sh {{ irods_zone_remote }} {{ irods_host_remote }} {{ irods_port_remote }}
       creates=/tmp/remotezone_created
+- name: Create remote user
+  sudo: false
+  command:
+      /vagrant/scripts/create_remoteuser.sh rods {{ irods_zone_remote }}
+      creates=/tmp/remoteuser_created
+- name: Grant privileges to /replicate folder to remote rods user
+  sudo: false
+  command:
+      /vagrant/scripts/execute_command.sh "iadmin mkuser rods#{{ irods_zone_remote }}; ichmod read -r rods#{{ irods_zone_remote }} /replicate;" "/tmp/grant_access_to_replicate_folder"
+      creates=/tmp/grant_access_to_replicate_folder
+- name: Add local SID to iRODS server config
+  lineinfile:
+      dest=/etc/irods/server.config
+      state=present
+      regexp="^LocalZoneSID\ (.*)$"
+      line="LocalZoneSID {{ irods_zone_sid }}"
+  sudo: true
+- name: Add remote SID to iRODS server config
+  lineinfile:
+      dest=/etc/irods/server.config
+      state=present
+      regexp="^RemoteZoneSID\ (.*)$"
+      line="RemoteZoneSID {{ irods_zone_remote }}-{{ irods_zone_sid_remote }}"
+      insertafter="^LocalZoneSID\ .*$"
+  sudo: true
+- name: Grant privileges to read everything in the current main zone folder and replicate folder
+  sudo: false
+  command:
+      /vagrant/scripts/execute_command.sh "iadmin mkuser rods#{{ irods_zone_remote }}; ichmod read rods#{{ irods_zone_remote }} /{{ irods_zone }}; ichmod read rods#{{ irods_zone_remote }} /{{ irods_zone }}/replicate" "/tmp/read_access_granted_to_everything_in_zone"
+      creates=/tmp/read_access_granted_to_everything_in_zone
