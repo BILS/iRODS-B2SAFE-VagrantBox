@@ -41,5 +41,5 @@
 - name: Grant privileges to read everything in the current main zone folder and replicate folder
   sudo: false
   command:
-      /vagrant/scripts/execute_command.sh "iadmin mkuser rods#{{ irods_zone_remote }}; ichmod read rods#{{ irods_zone_remote }} /{{ irods_zone }}; ichmod write rods#{{ irods_zone_remote }} /{{ irods_zone }}/replicate" "/tmp/read_access_granted_to_everything_in_zone"
+      /vagrant/scripts/execute_command.sh "iadmin mkuser rods#{{ irods_zone_remote }}; ichmod read rods#{{ irods_zone_remote }} /{{ irods_zone }}; ichmod write rods#{{ irods_zone_remote }} /{{ irods_zone }}/replicate; ichmod inherit /{{ irods_zone }}/replicate" "/tmp/read_access_granted_to_everything_in_zone"
       creates=/tmp/read_access_granted_to_everything_in_zone
