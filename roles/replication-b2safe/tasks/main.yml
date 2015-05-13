@@ -53,6 +53,11 @@
 #         }
 # }
 # #
+#
+# # TODO: Add bils.re according to above.
+- name: Add bils.re ruleset
+  copy: src=bils.re dest={{ b2safe_root }}/rulebase
+#
 # In core.re have the default resource set like:
 #
 # acPostProcForDataObjRead(*ReadBuffer) {
