@@ -1,31 +1,33 @@
 ---
+- name: Add bils.re ruleset by Jani
+  copy: src=bils.re dest={{ b2safe_root }}/rulebase
+- name: Add EUDATUpdateParentPids.r to b2safe rules folder
+  copy: src=EUDATUpdateParentPids.r dest={{ b2safe_root }}/rules
+  sudo: true
 # --------------------------------------------------------------------------------
 # Pasting Janos description below, for reference ...
-#
 # (From
 # https://projects.bils.se/projects/eudat-elixir-pilot-proteomics-data/wiki/Documentation_B2SAFE_setup_with_iRODS_403_from_Janos_2015-04-01 )
-#
 # Note though that many of these steps are already implemented in the b2safe, and
 # the replication roles.
 # --------------------------------------------------------------------------------
 #
-# A directory is required for the replicate scripts. Users access this directory via group write privileges.
 #
-#  imkdir /bilsZone/replicate
+# TODO: For allowing access to users other than the robot users, we need to:
 #  iadmin mkgroup replicate
 #  ichmod -r read replicate /bilsZone/replicate
 #  ichmod -r write replicate /bilsZone/replicate
 #  ichmod -r inherit /bilsZone/replicate
 #  iadmin atg replicate user
 #
-#  # TODO: In the ansible config, we didn't use a group for the access, only user ACL:s directly.
-#          We might change this to use a group, like Janos did above.
-#
 # As it was found out it is necessary for the users to have 'own' right on the replicate directory.
-#
 #  ichown -r own user /bilsZone/replicate
 #
-#  # TODO: This needs to be implemented as well
+# For the other side:
+#  ichown -r own user /ebi/replicate
+#
+#
+# TODO: This needs to be implemented as well
 #
 # Set variables in rule file reConfigs/local.re. For getEpicApiParameters:
 #
@@ -33,27 +35,8 @@
 #  *credStorePath="/var/lib/irods/b2safe/credentials";
 #  *serverID="bils-irods.nsc.liu.se:1248";
 #
-#  # TODO: Seems like this is not implemented?! (bit strange ...)
 #
-# The ruleset added by Jani, bils.re:
-#
-# #
-# acPostProcForModifyDataObjMeta {
-#         ON($objPath like "\*.replicate") {
-#                 processReplicationCommandFile($objPath);
-#         }
-# }
-# #
-# acPostProcForModifyDataObjMeta {
-#         ON($objPath like "\*.pid.create") {
-#                 processPIDCommandFile($objPath);
-#         }
-# }
-# #
-#
-# # TODO: Add bils.re according to above.
-- name: Add bils.re ruleset
-  copy: src=bils.re dest={{ b2safe_root }}/rulebase
+# TODO: Add the below
 #
 # In core.re have the default resource set like:
 #
@@ -64,25 +47,14 @@
 #  }
 # We had a problem with acPostProcForPut so that was not used as it was originally intended.
 #
-# # TODO: This doesn't seem to be implemented either (only acPostProcForPut, in euhooks.eu)
 #
-# Test like:
+# TODO: Add a test, like this?:
 #
 #  /var/lib/irods/src/B2SAFE-core-release-3.0/cmd/epicclient.py os /var/lib/irods/b2safe/credentials
 #
-# Jani implemented a workaround for the iRODS bug, the following rule. It is in /var/lib/irods/b2safe/EUDATUpdateParentPids.r:
 #
-# Done: This rule is now created as a file:
-- name: Add EUDATUpdateParentPids.r to b2safe rules folder
-  copy: src=EUDATUpdateParentPids.r dest={{ b2safe_root }}/rules
-  sudo: true
-#
-# Run this manually to do the replication.
-#
-# A crontab entry defined like:
+# TODO: Crontab for Jani's workaround-rule
 #
 # 0,10,20,30,40,50 * * * * /usr/bin/irule -F /var/lib/irods/b2safe/EUDATUpdateParentPids.r &gt;/var/tmp/EUDATUpdateParentPids.log 2&gt;&amp;1
 # Further testing/changes were done by other members of the project. For example, control files manually were copied into the replication directory etc., I didn't touch those details.
-#
-# # TODO: This needs to be added as well.
 # --------------------------------------------------------------------------------
