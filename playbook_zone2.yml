@@ -25,3 +25,4 @@
       - { role: irods-server, sudo: true }
       - { role: b2safe-module, sudo: true }
       - { role: replication, sudo: false }
+      - { role: replication-b2safe, sudo: false }
