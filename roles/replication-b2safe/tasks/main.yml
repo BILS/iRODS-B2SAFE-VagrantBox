@@ -9,31 +9,6 @@
 # the replication roles.
 # --------------------------------------------------------------------------------
 #
-# B2SAFE is not officially supported with iRODS version 4.0.3 so changes were necessary to the original install procedure to accomodate 4.0.3.
-#
-# Currently iRODS has a bug which prevents B2SAFE working the way it was originally inteded, which requried changes/workarounds. It is reported to the iRODS developers, there is a case open for it on GitHub and it's expected to be fixed soon.
-#
-# Partly this is a repeat of the standard install instruction, placeholders replaced with values specific to our configuration.
-#
-# Edit
-# Prerequisites for B2SAFE
-# Open the ports to enable communication between the zones. (Port 1248 and 30000-30199 for us, the standard posts for EBI.)
-#
-# We need to have a working federation set up before we can start with the B2SAFE installation itself. In our case that is with EBI. We need to create the federation like:
-#
-#  iadmin mkzone ebi remote irods-eudat.ebi.ac.uk:1247
-#  iadmin mkuser pride
-#  imkdir /bilsZone/pride
-#  ichmod -r read pride /bilsZone/pride
-#  ichmod -r write pride /bilsZone/pride
-#  ichmod -r read pride#ebi /bilsZone/pride
-#  ichmod -r write pride#ebi /bilsZone/pride
-#  ichmod -r inherit /bilsZone/pride
-#
-# Corresponding setup is required at the other side at EBI.
-#
-# It is necessary to set SIDs for the federating zones, with the stanzas LocalZoneSID and RemoteZoneSID.
-#
 # A directory is required for the replicate scripts. Users access this directory via group write privileges.
 #
 #  imkdir /bilsZone/replicate
@@ -43,42 +18,26 @@
 #  ichmod -r inherit /bilsZone/replicate
 #  iadmin atg replicate user
 #
+#  # TODO: In the ansible config, we didn't use a group for the access, only user ACL:s directly.
+#          We might change this to use a group, like Janos did above.
+#
 # As it was found out it is necessary for the users to have 'own' right on the replicate directory.
 #
 #  ichown -r own user /bilsZone/replicate
 #
-# For the other side:
+#  # TODO: This needs to be implemented as well
 #
-#  ichown -r own user /ebi/replicate
 #
-# Install dependencies:
+# Set variables in rule file reConfigs/local.re. For getEpicApiParameters:
 #
-#  yum install python-httplib2.noarch python-simplejson.x86_64
-#  yum install python-lxml.x86_64 python-defusedxml.noarch pylint.noarch
-#  easy_install queuelib
+#  *credStoreType="os";
+#  *credStorePath="/var/lib/irods/b2safe/credentials";
+#  *serverID="bils-irods.nsc.liu.se:1248";
 #
-# Edit
-# B2SAFE installation procedure
-# We use 4.0.3, there are local mods in place for our BILS iRODS, but that does not make a difference for B2SAFE. BILS iRODS was installed from the RPMs locally built.
-#
-# There are absolute paths referred by B2SAFE, which are the default case for us, i.e. /var/lib/irods, /var/lib/irods/iRODS, /etc/irods.
-#
-# We use B2SAFE version 3.0. It is unpacked under the directory /var/lib/irods/src/B2SAFE-core-release-3.0.
-#
-# The new iRODS does not have the concept of modules as before (does not affect B2SAFE), so there is no modules subdirectory, we need to create that as /var/lib/irods/iRODS/modules/B2SAFE.
-#
-# Put the rule files in place (create links):
-#
-#  cd /var/lib/irods/iRODS/
-#  ln -s /var/lib/irods/iRODS/modules/B2SAFE/rulebase/catchError.re ./server /config/reConfigs/
-#  ln -s /var/lib/irods/iRODS/modules/B2SAFE/rulebase/eudat.re ./server/config/reConfigs/
-#  ln -s /var/lib/irods/iRODS/modules/B2SAFE/rulebase/local.re ./server/config/reConfigs/
-#  ln -s /var/lib/irods/iRODS/modules/B2SAFE/rulebase/pid-service.re ./server/config/reConfigs/
-#  ln -s /var/lib/irods/iRODS/modules/B2SAFE/rulebase/replication.re ./server/config/reConfigs/
+#  # TODO: Seems like this is not implemented?! (bit strange ...)
 #
 # Edit the server config file server.config and make sure it contains:
 #
-# reRuleSet   bils,eudat,eurepl,eupids,eucerr,euloc,core
 # The ruleset added by Jani, bils.re:
 #
 # #
@@ -96,10 +55,6 @@
 # #
 # In core.re have the default resource set like:
 #
-# acSetRescSchemeForCreate {msiSetDefaultResc("bilsdefResc","preferred"); }
-# acSetRescSchemeForRepl {msiSetDefaultResc("bilsdefResc","preferred"); }
-# and
-#
 # acPostProcForDataObjRead(*ReadBuffer) {
 #      if (*cmd != "authZmanager.py") {
 #          EUDATAuthZ("$userNameClient#$rodsZoneClient", *cmd, *args, *response);
@@ -107,74 +62,7 @@
 #  }
 # We had a problem with acPostProcForPut so that was not used as it was originally intended.
 #
-# Install the python scripts:
-#
-#  cd ./iRODS/modules/B2SAFE/cmd
-#  cp * /var/lib/irods/iRODS/server/bin/cmd/
-#
-# Change the kernel cookie in the python scripts to refer /usr/bin/python. We've had a puppet rule to remove files under the cmd directory
-# due to security reasons so that needed to be disabled.
-#
-# Create a local directory for the b2safe configuration as:
-# mkdir /var/lib/irods/b2safe
-# It should contain:
-#
-# File authz.map.json:
-#
-# {
-# "assertion 1":
-#     { "subject":
-#                 [ "*" ],
-#       "action":
-#                 [ "read" ],
-#       "target":
-#                 [ "*.py" , "*" ]
-#     }
-# }
-# File credentials:
-#
-# {
-#     "baseuri": "https://epic4.storage.surfsara.nl/v2_B/handles/",
-#     "username": "11483",
-#     "prefix": "11483",
-#     "password": "password",
-#     "accept_format": "application/json",
-#     "debug" : "False"
-# }
-# File log.manager.conf:
-#
-# {
-# "log_level": "DEBUG",
-# "log_dir": "/var/lib/irods/b2safe/log"
-# }
-# Create the log directory.
-#
-#  mkdir /var/lib/irods/b2safe/log
-#
-# Create the soft links under reConfigs:
-#
-# cd /var/lib/irods/iRODS
-# ln -s /var/lib/irods/iRODS/modules/B2SAFE/rulebase/catchError.re ./server/config/reConfigs/
-# ln -s /var/lib/irods/iRODS/modules/B2SAFE/rulebase/eudat.re ./server/config/reConfigs/
-# ln -s /var/lib/irods/iRODS/modules/B2SAFE/rulebase/local.re ./server/config/reConfigs/
-# ln -s /var/lib/irods/iRODS/modules/B2SAFE/rulebase/pid-service.re ./server/config/reConfigs/
-# ln -s /var/lib/irods/iRODS/modules/B2SAFE/rulebase/replication.re ./server/config/reConfigs/
-#
-# Set variables in rule file reConfigs/local.re. For getEpicApiParameters:
-#
-#  *credStoreType="os";
-#  *credStorePath="/var/lib/irods/b2safe/credentials";
-#  *serverID="bils-irods.nsc.liu.se:1248";
-#
-# For getAuthZParameters:
-#
-#  *authZMapPath="/var/lib/irods/b2safe/authz.map.json";
-#
-# For getLogParameters:
-#
-#  *logConfPath="//var/lib/irods/b2safe/log.manager.conf";
-#
-# Requires a restart to make changes effective.
+# # TODO: This doesn't seem to be implemented either (only acPostProcForPut, in euhooks.eu)
 #
 # Test like:
 #
@@ -229,10 +117,18 @@
 # }
 # INPUT *Coll = &quot;/ebi/replicate&quot;, *Suffix=&quot;%%.pid.update&quot;
 # OUTPUT ruleExecOut
+#
+# # TODO: This rule is now created as a file
+- name: Add EUDATUpdateParentPids.r to b2safe rules folder
+  copy: src=EUDATUpdateParentPids.r dest={{ b2safe_root }}/rules
+  sudo: true
+#
 # Run this manually to do the replication.
 #
 # A crontab entry defined like:
 #
 # 0,10,20,30,40,50 * * * * /usr/bin/irule -F /var/lib/irods/b2safe/EUDATUpdateParentPids.r &gt;/var/tmp/EUDATUpdateParentPids.log 2&gt;&amp;1
 # Further testing/changes were done by other members of the project. For example, control files manually were copied into the replication directory etc., I didn't touch those details.
+#
+# # TODO: This needs to be added as well.
 # --------------------------------------------------------------------------------
