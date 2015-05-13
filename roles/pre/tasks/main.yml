@@ -17,6 +17,10 @@
       - git
       - libselinux-python
       - traceroute
+      - kernel-devel-2.6.32-504.16.2.el6.x86_64
+      - gcc
+- name: Manually install the VirtualBox guest extensions
+  command: /etc/init.d/vboxadd setup
 - name: Install SSH key
   authorized_key: 
       user=vagrant 
