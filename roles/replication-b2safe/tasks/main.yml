@@ -6,10 +6,7 @@
   sudo: true
 # --------------------------------------------------------------------------------
 # Pasting Janos description below, for reference ...
-# (From
-# https://projects.bils.se/projects/eudat-elixir-pilot-proteomics-data/wiki/Documentation_B2SAFE_setup_with_iRODS_403_from_Janos_2015-04-01 )
-# Note though that many of these steps are already implemented in the b2safe, and
-# the replication roles.
+# From https://projects.bils.se/projects/eudat-elixir-pilot-proteomics-data/wiki/Documentation_B2SAFE_setup_with_iRODS_403_from_Janos_2015-04-01
 # --------------------------------------------------------------------------------
 #
 # TODO: This needs to be implemented as well
@@ -31,6 +28,7 @@
 #          EUDATAuthZ("$userNameClient#$rodsZoneClient", *cmd, *args, *response);
 #      }
 #  }
+#
 # We had a problem with acPostProcForPut so that was not used as it was originally intended.
 #
 # --------------------------------------------------------------------------------
