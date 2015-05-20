@@ -10,8 +10,10 @@
 # --------------------------------------------------------------------------------
 #
 # TODO: This needs to be implemented as well
+# TODO: Well ... looking at it now, seems to be automatically set by B2SAFE install?
 #
-# Set variables in rule file reConfigs/local.re. For getEpicApiParameters:
+# Set variables in rule file reConfigs/local.re (or euloc.re if using the symlinks suggested).
+# For getEpicApiParameters:
 #
 #  *credStoreType="os";
 #  *credStorePath="/var/lib/irods/b2safe/credentials";
