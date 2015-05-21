@@ -47,7 +47,7 @@
 #
 # TODO: Crontab for Jani's workaround-rule
 #
-# 0,10,20,30,40,50 * * * * /usr/bin/irule -F /var/lib/irods/b2safe/EUDATUpdateParentPids.r &gt;/var/tmp/EUDATUpdateParentPids.log 2&gt;&amp;1
+# 0,10,20,30,40,50 * * * * /usr/bin/irule -F /var/lib/irods/b2safe/EUDATUpdateParentPids.r > /var/tmp/EUDATUpdateParentPids.log 2>&1
 # Further testing/changes were done by other members of the project. For example, control files manually were copied into the replication directory etc., I didn't touch those details.
 #
 # --------------------------------------------------------------------------------
