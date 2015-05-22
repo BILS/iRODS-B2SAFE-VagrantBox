@@ -18,6 +18,9 @@
 #  *serverID="bils-irods.nsc.liu.se:1248";
 #
 # NOTE: Well ... looking at it now, seems to be automatically set by B2SAFE install?
+# NOTE: I was wondering if the epic4.storage.surfsara.nl URL should be used instead,
+#       but the info on this page, seems to suggest that both URL:s might be OK:
+#       http://eudat.eu/User%20Documentation%20-%20PIDs%20in%20EUDAT.html
 #
 # --------------------------------------------------------------------------------
 - name: Add acPostProcForDataObjRead rule in core.re
@@ -32,6 +35,10 @@
 #
 #  /var/lib/irods/src/B2SAFE-core-release-3.0/cmd/epicclient.py os /var/lib/irods/b2safe/credentials test
 #
+# NOTE: But what should we do with the test? Does it make sense to have tests in ansible rules?
+# NOTE: I guess it should suffice to run this test manually once all the provisioning is done,
+#       not to include it as a task.
+#
 # --------------------------------------------------------------------------------
 #
 # TODO: Crontab for Jani's workaround-rule
@@ -43,6 +50,7 @@
 #
 # TODO: For allowing access to users other than the robot users, we need to:
 #       ... but maybe should leave this for the end? (not exactly necessary for the install?)
+#
 #  iadmin mkgroup replicate
 #  ichmod -r read replicate /bilsZone/replicate
 #  ichmod -r write replicate /bilsZone/replicate
