@@ -3,7 +3,6 @@
   copy: src=bils.re dest={{ b2safe_root }}/rulebase
 - name: Add EUDATUpdateParentPids.r to b2safe rules folder
   copy: src=EUDATUpdateParentPids.r dest={{ b2safe_root }}/rules
-  sudo: true
 # --------------------------------------------------------------------------------
 # Pasting Janos description below, for reference ...
 # From https://projects.bils.se/projects/eudat-elixir-pilot-proteomics-data/wiki/Documentation_B2SAFE_setup_with_iRODS_403_from_Janos_2015-04-01
@@ -36,12 +35,20 @@
 #
 # NOTE: There seems to be no core.re in iRODS 4.x, so have mailed Janos for info
 #       on if they created this file themselves, or something else.
+# NOTE: Yes, there is, in /etc/irods !
 #
+# --------------------------------------------------------------------------------
+- name: Add acPostProcForDataObjRead rule in core.re
+  replace:
+      dest={{ irods_etc }}/core.re
+      regexp='^acPostProcForDataObjRead\(\*ReadBuffer\)\ \{\ \}$'
+      replace='acPostProcForDataObjRead(*ReadBuffer) {\n\tif (*cmd != "authZmanager.py") {\n\t\tEUDATAuthZ("$userNameClient#$rodsZoneClient", *cmd, *args, *response);\n\t}\n}'
+      backup=yes
 # --------------------------------------------------------------------------------
 #
 # TODO: Add a test, like this?:
 #
-#  /var/lib/irods/src/B2SAFE-core-release-3.0/cmd/epicclient.py os /var/lib/irods/b2safe/credentials
+#  /var/lib/irods/src/B3SAFE-core-release-3.0/cmd/epicclient.py os /var/lib/irods/b2safe/credentials test
 #
 # --------------------------------------------------------------------------------
 #
