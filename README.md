@@ -53,3 +53,15 @@ or:
 vagrant ssh zone2
 ```
 respectively.
+
+## Known issues
+
+- It can happen that the VirtualBox guest extensions suddently stops working,
+  with the effect that mounting of folders from the host won't work anymore,
+  and the ansible provisioning will not work.
+  - This can be fixed by manually SSH:ing in to the boxes and issuing the
+    following commands:
+    - `sudo yum install kernel-devel-2.6.32-504.16.2.el6.x86_64`
+    - `sudo yum install gcc`
+	- `sudo /etc/init.d/vboxadd setup`
+	- `sudo reboot now`
