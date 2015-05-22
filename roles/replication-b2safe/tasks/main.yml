@@ -38,14 +38,6 @@
       line='0,10,20,30,40,50 * * * * vagrant /vagrant/scripts/run_eudateupdateparentpids_rule.sh > /var/tmp/EUDATUpdateParentPids.log 2>&1'
 # --------------------------------------------------------------------------------
 #
-# Further testing/changes were done by other members of the project. For example,
-# control files manually were copied into the replication directory etc., I didn't
-# touch those details.
-#
-# -- Janos
-#
-# --------------------------------------------------------------------------------
-#
 # TODO: For allowing access to users other than the robot users, we need to:
 #       ... but maybe should leave this for the end? (not exactly necessary for the install?)
 #
