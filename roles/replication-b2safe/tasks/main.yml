@@ -20,24 +20,6 @@
 # NOTE: Well ... looking at it now, seems to be automatically set by B2SAFE install?
 #
 # --------------------------------------------------------------------------------
-#
-# TODO: Add the below
-#
-# In core.re have the default resource set like:
-#
-# acPostProcForDataObjRead(*ReadBuffer) {
-#      if (*cmd != "authZmanager.py") {
-#          EUDATAuthZ("$userNameClient#$rodsZoneClient", *cmd, *args, *response);
-#      }
-#  }
-#
-# We had a problem with acPostProcForPut so that was not used as it was originally intended.
-#
-# NOTE: There seems to be no core.re in iRODS 4.x, so have mailed Janos for info
-#       on if they created this file themselves, or something else.
-# NOTE: Yes, there is, in /etc/irods !
-#
-# --------------------------------------------------------------------------------
 - name: Add acPostProcForDataObjRead rule in core.re
   replace:
       dest={{ irods_etc }}/core.re
