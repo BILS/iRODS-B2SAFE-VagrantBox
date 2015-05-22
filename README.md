@@ -1,4 +1,4 @@
-# A Vagrant / Ansible config with iRODS4 and the B2SAFE module
+#  A Vagrant / Ansible config with iRODS4 and the B2SAFE module
 
 ![Screenshot](irods_b2safe_terminal.png)
 
@@ -53,6 +53,32 @@ or:
 vagrant ssh zone2
 ```
 respectively.
+
+## Optional additional steps
+
+If wanting to allow access from one zone to another, except for the "robot"
+user setup in the included ansible configuration, you will need to do the
+following on both sides, for each additional user that needs/wants access:
+
+```bash
+iadmin mkgroup replicate
+ichmod -r read replicate /zone1/replicate
+ichmod -r write replicate /zone1/replicate
+ichmod -r inherit /zone1/replicate
+iadmin atg replicate [username]
+```
+
+It was also found out it is necessary for the users to have 'own' right on the replicate directory.
+
+```bash
+ichown -r own [username] /zone1/replicate
+```
+
+Same thing for the other side:
+```bash
+ichown -r own [username] /zone2/replicate
+```
+
 
 ## Making sure that things work
 
