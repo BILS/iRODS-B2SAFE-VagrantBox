@@ -48,7 +48,7 @@
 #
 # TODO: Add a test, like this?:
 #
-#  /var/lib/irods/src/B3SAFE-core-release-3.0/cmd/epicclient.py os /var/lib/irods/b2safe/credentials test
+#  /var/lib/irods/src/B2SAFE-core-release-3.0/cmd/epicclient.py os /var/lib/irods/b2safe/credentials test
 #
 # --------------------------------------------------------------------------------
 #
