@@ -18,30 +18,30 @@ update_parent_pid {
         *SuccessCount = 0;
         *FailedCount = 0;
         *MaxSuccess = 100;
-        *Condition=&quot;COLL_NAME = '*Coll' AND DATA_NAME like '*Suffix'&quot;;
-        msiMakeGenQuery(&quot;COLL_NAME,DATA_NAME&quot;,*Condition,*GenQInp);
+        *Condition="COLL_NAME = '*Coll' AND DATA_NAME like '*Suffix'";
+        msiMakeGenQuery("COLL_NAME,DATA_NAME",*Condition,*GenQInp);
         msiExecGenQuery(*GenQInp, *GenQOut);
         msiGetContInxFromGenQueryOut(*GenQOut,*ContInxNew);
-        while(*ContInxOld &gt; 0) {
+        while(*ContInxOld > 0) {
                 if(*ContInxNew == 0) { *ContInxOld = 0; }
                 foreach(*GenQOut) {
-                        msiGetValByKey(*GenQOut, &quot;COLL_NAME&quot;, *Cname);
-                        msiGetValByKey(*GenQOut, &quot;DATA_NAME&quot;, *Dname);
-                        *CF=&quot;*Cname/*Dname&quot;;
-                        if(errorcode(msiObjStat(*CF,*out)) &gt;= 0) {
+                        msiGetValByKey(*GenQOut, "COLL_NAME", *Cname);
+                        msiGetValByKey(*GenQOut, "DATA_NAME", *Dname);
+                        *CF="*Cname/*Dname";
+                        if(errorcode(msiObjStat(*CF,*out)) >= 0) {
                                 processPIDCommandFile(*CF);
                                 *SuccessCount = *SuccessCount + 1;
                         } else {
-                                logInfo(&quot;*file does not exist&quot;);
+                                logInfo("*file does not exist");
                                 EUDATProcessErrorUpdatePID(*CF);
                                 *FailedCount = *FailedCount + 1;
                         }
                 }
                 *ContInxOld = *ContInxNew;
-                if(*SuccessCount &gt; *MaxSuccess) { *ContInxOld = 0; }
-                if(*ContInxOld &gt; 0) {msiGetMoreRows(*GenQInp,*GenQOut,*ContInxNew);}
+                if(*SuccessCount > *MaxSuccess) { *ContInxOld = 0; }
+                if(*ContInxOld > 0) {msiGetMoreRows(*GenQInp,*GenQOut,*ContInxNew);}
         }
-        logInfo(&quot;Updated parent PIDs: *SuccessCount . Failed updates: *FailedCount&quot;);
+        logInfo("Updated parent PIDs: *SuccessCount . Failed updates: *FailedCount");
 }
-INPUT *Coll = &quot;/ebi/replicate&quot;, *Suffix=&quot;%%.pid.update&quot;
+INPUT *Coll = "/ebi/replicate", *Suffix="%%.pid.update"
 OUTPUT ruleExecOut
