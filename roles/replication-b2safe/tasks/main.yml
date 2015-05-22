@@ -29,23 +29,6 @@
       regexp='^acPostProcForDataObjRead\(\*ReadBuffer\)\ \{\ \}$'
       replace='acPostProcForDataObjRead(*ReadBuffer) {\n\tif (*cmd != "authZmanager.py") {\n\t\tEUDATAuthZ("$userNameClient#$rodsZoneClient", *cmd, *args, *response);\n\t}\n}'
       backup=yes
-# --------------------------------------------------------------------------------
-#
-# TODO: Add a test, like this?:
-#
-#  /var/lib/irods/src/B2SAFE-core-release-3.0/cmd/epicclient.py os /var/lib/irods/b2safe/credentials test
-#
-# NOTE: But what should we do with the test? Does it make sense to have tests in ansible rules?
-# NOTE: I guess it should suffice to run this test manually once all the provisioning is done,
-#       not to include it as a task.
-#
-# --------------------------------------------------------------------------------
-#
-# TODO: Crontab for Jani's workaround-rule
-#
-# 0,10,20,30,40,50 * * * * /usr/bin/irule -F /var/lib/irods/b2safe/EUDATUpdateParentPids.r > /var/tmp/EUDATUpdateParentPids.log 2>&1
-#
-# --------------------------------------------------------------------------------
 - name: Add crontab to run the shell script that runs the EUDATUpdateParentPids
         custom (workaround) rule
   lineinfile:

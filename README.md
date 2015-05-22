@@ -54,12 +54,21 @@ vagrant ssh zone2
 ```
 respectively.
 
+## Making sure that things work
+
+To test that the communication with the epic client works, you can try issuing the following
+command, inside one of the virtual machines:
+
+```bash
+/var/lib/irods/iRODS/modules/b2safe/cmd/epicclient.py os /var/lib/irods/b2safe/credentials test
+```
+
 ## Known issues
 
 - It can happen that the VirtualBox guest extensions suddently stops working,
   with the effect that mounting of folders from the host won't work anymore,
   and the ansible provisioning will not work.
-  - This can be fixed by manually SSH:ing in to the boxes and issuing the
+  - This can be fixed by manually SSH:ing in to the boxes (with `vagrant ssh [boxname]` and issuing the
     following commands:
     - `sudo yum install kernel-devel-2.6.32-504.16.2.el6.x86_64`
     - `sudo yum install gcc`
