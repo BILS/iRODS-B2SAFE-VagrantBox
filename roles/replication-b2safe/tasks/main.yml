@@ -26,6 +26,8 @@
 #       http://eudat.eu/User%20Documentation%20-%20PIDs%20in%20EUDAT.html
 # NOTE: But can this be the reason why the epicclient.py is still failing?
 #       ... maybe should be logging what address it tries to connect to ...
+# NOTE: Just talked to Janos on mail, and they also have hdl.handle.net in *epicApi
+#       so it seems this is OK.
 #
 # --------------------------------------------------------------------------------
 - name: Add acPostProcForDataObjRead rule in core.re
