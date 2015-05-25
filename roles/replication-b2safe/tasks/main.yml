@@ -24,6 +24,8 @@
 # NOTE: I was wondering if the epic4.storage.surfsara.nl URL should be used instead,
 #       but the info on this page, seems to suggest that both URL:s might be OK:
 #       http://eudat.eu/User%20Documentation%20-%20PIDs%20in%20EUDAT.html
+# NOTE: But can this be the reason why the epicclient.py is still failing?
+#       ... maybe should be logging what address it tries to connect to ...
 #
 # --------------------------------------------------------------------------------
 - name: Add acPostProcForDataObjRead rule in core.re
