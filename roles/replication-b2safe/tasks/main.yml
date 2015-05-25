@@ -6,30 +6,6 @@
   copy: src=bils.re dest={{ b2safe_root }}/rulebase
 - name: Add EUDATUpdateParentPids.r to b2safe rules folder
   copy: src=EUDATUpdateParentPids.r dest={{ b2safe_root }}/rules
-# --------------------------------------------------------------------------------
-# Janos description below, for reference ...
-# From https://projects.bils.se/projects/eudat-elixir-pilot-proteomics-data/wiki/Documentation_B2SAFE_setup_with_iRODS_403_from_Janos_2015-04-01
-# --------------------------------------------------------------------------------
-#
-# TODO: This needs to be implemented as well
-#
-# Set variables in rule file reConfigs/local.re (or euloc.re if using the symlinks suggested).
-# For getEpicApiParameters:
-#
-#  *credStoreType="os";
-#  *credStorePath="/var/lib/irods/b2safe/credentials";
-#  *serverID="bils-irods.nsc.liu.se:1248";
-#
-# NOTE: Well ... looking at it now, seems to be automatically set by B2SAFE install?
-# NOTE: I was wondering if the epic4.storage.surfsara.nl URL should be used instead,
-#       but the info on this page, seems to suggest that both URL:s might be OK:
-#       http://eudat.eu/User%20Documentation%20-%20PIDs%20in%20EUDAT.html
-# NOTE: But can this be the reason why the epicclient.py is still failing?
-#       ... maybe should be logging what address it tries to connect to ...
-# NOTE: Just talked to Janos on mail, and they also have hdl.handle.net in *epicApi
-#       so it seems this is OK.
-#
-# --------------------------------------------------------------------------------
 - name: Add acPostProcForDataObjRead rule in core.re
   replace:
       dest={{ irods_etc }}/core.re
