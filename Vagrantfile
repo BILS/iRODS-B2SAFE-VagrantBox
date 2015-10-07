@@ -6,7 +6,7 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define "zone1" do |zone1|
-	  zone1.vm.box = "chef/centos-6.5"
+	  zone1.vm.box = "bento/centos-6.7"
 	  zone1.vm.network "forwarded_port", guest: 80, host: 8080
 	  zone1.vm.network "forwarded_port", guest: 1247, host: 1501
 	  zone1.vm.provision :ansible do |ansible|
@@ -19,7 +19,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define "zone2" do |zone2|
-	  zone2.vm.box = "chef/centos-6.5"
+	  zone2.vm.box = "bento/centos-6.7"
 	  zone2.vm.network "forwarded_port", guest: 80, host: 8081
 	  zone2.vm.network "forwarded_port", guest: 1247, host: 1502
 	  zone2.vm.provision :ansible do |ansible|
